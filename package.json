@@ -3,10 +3,11 @@
   "license": "MIT",
   "scripts": {
     "build": "parcel build src/index.html",
-    "lint": "yarn eslint src --ext .js,.jsx,.ts,.tsx --max-warnings=0 --fix",
-    "lint:check": "yarn eslint src --ext .js,.jsx,.ts,.tsx --max-warnings=0 --fix",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings=0 --fix",
+    "lint:check": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings=0 --fix",
+    "schema:download": "apollo client:download-schema schema.graphql",
     "start": "parcel serve src/index.html",
-    "test": "yarn jest",
+    "test": "jest",
     "typecheck": "tsc"
   },
   "husky": {
@@ -20,8 +21,10 @@
     "package.json": "sort-package-json"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.5",
     "@types/react": "16.9.53",
     "@types/react-dom": "16.9.8",
+    "graphql": "^15.3.0",
     "parcel": "2.0.0-nightly.429",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -29,11 +32,14 @@
   },
   "devDependencies": {
     "@aussiegeek/eslint-config-react": "0.1.0",
+    "@graphql-tools/mock": "^6.2.4",
+    "@graphql-tools/schema": "^6.2.4",
     "@testing-library/jest-dom": "5.11.4",
     "@testing-library/react": "11.1.0",
     "@types/jest": "26.0.15",
     "@typescript-eslint/eslint-plugin": "4.5.0",
     "@typescript-eslint/parser": "4.5.0",
+    "apollo": "^2.31.0",
     "eslint": "7.11.0",
     "eslint-config-prettier": "6.14.0",
     "eslint-plugin-eslint-comments": "3.2.0",

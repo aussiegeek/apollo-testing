@@ -1,0 +1,168 @@
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+"""Information about a single country"""
+type Country {
+  """Commonly used English name for the country"""
+  name: String!
+
+  """Offically used English name for the country"""
+  officialName: String!
+
+  """Other native & translated country names"""
+  names: [CountryName!]!
+
+  """country code top-level domain"""
+  tld: [String!]!
+
+  """code ISO 3166-1 alpha-2"""
+  cca2: String!
+
+  """code ISO 3166-1 numeric"""
+  ccn3: String!
+
+  """code ISO 3166-1 alpha-3"""
+  cca3: String!
+
+  """code International Olympic Committee"""
+  cioc: String!
+
+  """ISO 3166-1 independence status, true if indepdendent"""
+  independent: Boolean
+
+  """ISO 3166-1 assignment status"""
+  status: ISO3166Status!
+
+  """Currencies used in the country"""
+  currencies: [Currency!]!
+
+  """Name of the capital city or cities"""
+  capitalCities: [String!]!
+
+  """Alternative spellings"""
+  altSpellings: [String!]!
+
+  """Region"""
+  region: Region!
+
+  """Subregion"""
+  subregion: String!
+
+  """Emoji representation of the country's flag"""
+  emoji: String!
+
+  """Bordering countries"""
+  borders: [Country!]!
+
+  """URL for the country's flag in SVG"""
+  flagURL: String!
+
+  """Languages used in the country"""
+  languages: [Language!]!
+}
+
+enum ISO3166Status {
+  OFFICIALLY_ASSIGNED
+  USER_ASSIGNED
+}
+
+"""Translations of the name of a Country"""
+type CountryName {
+  """three-letter ISO 639-3 language code"""
+  code: String!
+
+  """Official name of country in this language"""
+  official: String!
+
+  """Commonly used name of country in this language"""
+  common: String!
+
+  """Is this name native or translated"""
+  type: CountryNameType!
+}
+
+"""Details about a language"""
+type Language {
+  """Name of the language in English"""
+  name: String!
+
+  """three-letter ISO 639-3 language code"""
+  code: String!
+}
+
+"""Is this name native or translated"""
+enum CountryNameType {
+  NATIVE
+  TRANSLATED
+}
+
+"""Currency"""
+type Currency {
+  """ISO 4127 Currency code"""
+  code: String!
+
+  """Name of the currency"""
+  name: String!
+
+  """Symbol of the currency"""
+  symbol: String!
+}
+
+enum Region {
+  AFRICA
+  AMERICAS
+  ANTARTIC
+  ASIA
+  EUROPE
+  OCEANIA
+}
+
+"""The query root for this schema"""
+type Query {
+  """Fetch information about Countries"""
+  countries: [Country!]!
+
+  """Fetch information about a single country"""
+  country(cca3: String!): Country
+}
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
